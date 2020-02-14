@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PPM DU SWAG</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<style>
+#formUpload {
+	display: flex;
+	align-items: center;
+}
+			#formUpload * {
+				margin-right: 2px;
+			}
+			#main {
+				margin-left: 40vw;
+				margin-top: 2vh;
+				display: flex;
+				flex-direction: column;
+				width: 20vw;
+			}
+			#actionForm {
+				display: flex;
+				flex-direction: column;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Le projet du swag en Rust</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+				</ul>
+			</div>
+		</nav>
+
+		<div id="main">
+			<div>
+				<form id="formUpload" method="post" enctype="multipart/form-data">
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>File</span>
+							<input type="file" name="file">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
+						</div>
+					</div>
+					<button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+				</form>
+			</div>
+			<div>
+				{% if session %}
+				<h5>Your picture : {{ session['file'] }}</h5>
+				<form id="actionForm" method="post" action="/apply">
+					<p>
+					<label>
+						<input name="operation" type="radio" value="invert" checked />
+						<span>Invert</span>
+					</label>
+					</p>
+					<p>
+					<label>
+						<input name="operation" type="radio" value="grayscale" />
+						<span>Grayscale</span>
+					</label>
+					</p>
+					<p>
+					<label>
+						<input name="operation" type="radio" value="gaussian" />
+						<span>Gaussian blur</span>
+					</label>
+					</p>
+					<button class="btn waves-effect waves-light" type="submit" name="action">Apply</button>
+				</form>
+				{% if "output" in session %}
+				<a href="/download">Download</a>
+				{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</body>
+</html>

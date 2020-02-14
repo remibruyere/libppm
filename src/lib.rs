@@ -6,8 +6,9 @@ use std::str;
 use structures::image::Image;
 use structures::w_matrix::W_matrix;
 
-//MacOS user need to comment this line
+//MacOS user need to comment the line below
 #[link(name = "ppma_io")]
+
 extern "C" {
     fn ppma_write(
         file_output_name: *const c_char,
@@ -28,6 +29,13 @@ extern "C" {
     );
 }
 
+/// This function use the function ppma_read of the C library. It make rust arguments compatible for the C function.
+///
+/// Returns an instance of Image readed from the path in argument.
+///
+/// # Arguments
+///
+/// * `path` - The path of an image
 fn ppma_read_rust(path: String) -> Image {
     let mut r = Vec::with_capacity(1);
     let mut g = Vec::with_capacity(1);
@@ -78,6 +86,12 @@ fn ppma_read_rust(path: String) -> Image {
     }
 }
 
+/// This function use the function ppma_write of the C library. It make rust arguments compatible for the C function.
+///
+/// # Arguments
+///
+/// * `image` - An instance of Image
+/// * `file_name` - The path of the image the blur
 fn ppma_write_rust(image: Image, file_name: String) {
     let (r, g, b) = Image::to_vector(&image);
     unsafe {
@@ -94,6 +108,11 @@ fn ppma_write_rust(image: Image, file_name: String) {
     }
 }
 
+/// Invert the image in arguments
+///
+/// # Arguments
+///
+/// * `name_python` - the path of the image the blur
 #[no_mangle]
 pub extern "C" fn invert_image(name_python: *const c_char) {
     let bytes = unsafe { CStr::from_ptr(name_python).to_bytes() };
@@ -103,6 +122,11 @@ pub extern "C" fn invert_image(name_python: *const c_char) {
     ppma_write_rust(img, format!("{}{}", "output/", name));
 }
 
+/// Make a grayscale of the image in arguments
+///
+/// # Arguments
+///
+/// * `name_python` - the path of the image the blur
 #[no_mangle]
 pub extern "C" fn grayscale_image(name_python: *const c_char) {
     let bytes = unsafe { CStr::from_ptr(name_python).to_bytes() };
@@ -112,6 +136,11 @@ pub extern "C" fn grayscale_image(name_python: *const c_char) {
     ppma_write_rust(img, format!("{}{}", "output/", name));
 }
 
+/// Blur the given image in arguments
+///
+/// # Arguments
+///
+/// * `name_python` - the path of the image the blur
 #[no_mangle]
 pub extern "C" fn image_gaussian_blur(name_python: *const c_char) {
     let bytes = unsafe { CStr::from_ptr(name_python).to_bytes() };

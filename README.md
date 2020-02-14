@@ -1,10 +1,14 @@
-# libppm
+# Authors
 
-1) fork the project
+- Jim Bienvenu
+- Jing Lin
+- Rémi Bruyère
+- Ourdia Oualiken
 
-2) push an existing repository from the command line
+# Run project
+
+To run the project, you have to execute this command :
 
 ```
-git remote add origin git@github.com:USERNAME/libppm.git
-git push -u origin master
-```
+cd webapp && env FLASK_APP=index.py && flask run
+``` 
